@@ -30,4 +30,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 All Microsoft Cognitive Services SDKs and samples are licensed with the MIT License. For more details, see
 [LICENSE](</LICENSE.md>).
 
-Sample images are licensed separately, please refer to [LICENSE-IMAGE](</LICENSE-IMAGE.md>)
+Sample images are licensed separately, please refer to [LICENSE-IMAGE](</LICENSE-IMAGE.md>).

@@ -53,6 +53,7 @@ class IdentificationServiceHttpClientHelper:
     _CONTENT_TYPE_HEADER = 'Content-Type'
     _JSON_CONTENT_HEADER_VALUE = 'application/json'
     _STREAM_CONTENT_HEADER_VALUE = 'application/octet-stream'
+    _SHORT_AUDIO_PARAMETER_NAME = 'shortAudio'
     _OPERATION_LOCATION_HEADER = 'Operation-Location'
     _OPERATION_STATUS_FIELD_NAME = 'status'
     _OPERATION_PROC_RES_FIELD_NAME = 'processingResult'
@@ -119,19 +120,23 @@ class IdentificationServiceHttpClientHelper:
             logging.error('Error creating profile.')
             raise
 
-    def enroll_profile(self, profile_id, file_path):
+    def enroll_profile(self, profile_id, file_path, force_short_audio = False):
         """Enrolls a profile using an audio file and returns a
         dictionary of the enrollment response.
 
         Arguments:
         profile_id -- the profile ID string of the user to enroll
         file_path -- the file path string of the audio file to use
+        force_short_audio -- instruct the service to waive the recommended minimum audio limit
+                             needed for enrollment
         """
         try:
             # Prepare the request
-            request_url = '{0}/{1}/enroll'.format(
+            request_url = '{0}/{1}/enroll?{2}={3}'.format(
                 self._IDENTIFICATION_PROFILES_URI,
-                urllib.parse.quote(profile_id))
+                urllib.parse.quote(profile_id),
+                self._SHORT_AUDIO_PARAMETER_NAME,
+                force_short_audio)
             print(request_url);
 
             # Prepare the body of the message
@@ -159,22 +164,26 @@ class IdentificationServiceHttpClientHelper:
             logging.error('Error enrolling profile.')
             raise
 
-    def identify_file(self, file_path, test_profile_ids):
+    def identify_file(self, file_path, test_profile_ids, force_short_audio = False):
         """Enrolls a profile using an audio file and returns a
         dictionary of the enrollment response.
 
         Arguments:
         file_path -- the file path of the audio file to test
         test_profile_ids -- an array of test profile IDs strings
+        force_short_audio -- instruct the service to waive the recommended minimum audio limit
+                             needed for enrollment
         """
         try:
             # Prepare the request
             if len(test_profile_ids) < 1:
                 raise Exception('Error identifying file: no test profile IDs are provided.')
             test_profile_ids_str = ','.join(test_profile_ids)
-            request_url = '{0}?identificationProfileIds={1}'.format(
+            request_url = '{0}?identificationProfileIds={1}&{2}={3}'.format(
                 self._IDENTIFICATION_URI,
-                urllib.parse.quote(test_profile_ids_str))
+                urllib.parse.quote(test_profile_ids_str),
+                self._SHORT_AUDIO_PARAMETER_NAME,
+                force_short_audio)
 
             # Prepare the body of the message
             with open(file_path, 'rb') as body:

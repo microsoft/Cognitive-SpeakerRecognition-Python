@@ -141,7 +141,7 @@ class IdentificationServiceHttpClientHelper:
                 
             if res.status != self._STATUS_OK:
                 reason = res.reason if not message else message
-                raise Exception('Error resetting profile: ' + reason)
+                raise Exception('Error deleting profile: ' + reason)
         except:
             logging.error('Error deleting profile')
             raise

@@ -78,7 +78,61 @@ class VerificationServiceHttpClientHelper:
         except:
             logging.error('Error creating profile.')
             raise
+    
+    def delete_profile(self, profile_id):
+        """Delete the given profile from the server
 
+        Arguments:
+        profile_id -- the profile ID of the profile to delete
+        """
+        try:
+            # prepare the request
+            request_url = '{0}/{1}'.format(
+                self._VERIFICATION_PROFILES_URI,
+                urllib.parse.quote(profile_id))
+            
+            # Send the request
+            res, message = self._send_request(
+                'DELETE',
+                self._BASE_URI,
+                request_url,
+                self._JSON_CONTENT_HEADER_VALUE)
+                
+            if res.status != self._STATUS_OK:
+                reason = res.reason if not message else message
+                raise Exception('Error deleting profile: ' + reason)
+        
+        except:
+            logging.error('Error deleting profile')
+            raise
+
+    
+    def reset_enrollments(self, profile_id):
+        """Reset enrollments of a given profile from the server
+        
+        Arguments:
+        profile_id -- the profile ID of the profile to reset
+        """
+        try:
+            # prepare the request
+            request_url = '{0}/{1}/reset?'.format(
+                self._VERIFICATION_PROFILES_URI,
+                urllib.parse.quote(profile_id))
+            
+            # Send the request
+            res, message = self._send_request(
+                'POST',
+                self._BASE_URI,
+                request_url,
+                self._JSON_CONTENT_HEADER_VALUE)
+            
+            if res.status != self._STATUS_OK:
+                reason = res.reason if not message else message
+                raise Exception('Error resetting profile: ' + reason)
+        except:
+            logging.error('Error resetting profile')
+            raise
+    
     def enroll_profile(self, profile_id, file_path):
         """Enrolls a profile using an audio file and returns a
         dictionary of the enrollment response.

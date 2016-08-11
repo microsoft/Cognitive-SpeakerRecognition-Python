@@ -102,11 +102,11 @@ class VerificationServiceHttpClientHelper:
             
             if res.status == self._STATUS_OK:
                 # Parse the response body
-                profile = json.loads(message)
-                return VerificationProfile.VerificationProfile(profile)
+                profile_raw = json.loads(message)
+                return VerificationProfile.VerificationProfile(profile_raw)
             else:
                 reason = reason if not message else message
-                raise Exception('Error getting all profiles: ' + reason)
+                raise Exception('Error getting profile: ' + reason)
             
         except:
             logging.error('Error getting profile')

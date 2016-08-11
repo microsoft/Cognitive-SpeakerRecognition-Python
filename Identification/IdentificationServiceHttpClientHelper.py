@@ -91,7 +91,38 @@ class IdentificationServiceHttpClientHelper:
         except:
             logging.error('Error getting all profiles.')
             raise
-
+    
+    def get_profile(self, profile_id):
+        """Get a speaker's profile with given profile ID
+        
+        Arguments:
+        subscription_key -- the subscription key string
+        profile_id -- the profile ID of the profile to resets
+        """
+        try:
+            # Prepare the request
+            request_url = '{0}/{1}'.format(
+                self._IDENTIFICATION_PROFILES_URI,
+                profile_id)
+            
+            # Send the request
+            res, message = self._send_request(
+                'GET',
+                self._BASE_URI,
+                request_url,
+                self._JSON_CONTENT_HEADER_VALUE)
+        
+            if res.status == self._STATUS_OK:
+                # Parse the response body
+                profile_raw = json.loads(message)
+                return IdentificationProfile.IdentificationProfile(profile_raw)
+            else:
+                reason = res.reason if not message else message
+                raise Exception('Error getting profile: ' + reason)
+        except:
+            logging.error('Error getting profile.')
+            raise
+        
     def create_profile(self, locale):
         """Creates a profile on the server and returns a dictionary of the creation response.
 
@@ -165,14 +196,14 @@ class IdentificationServiceHttpClientHelper:
                 self._BASE_URI,
                 request_url,
                 self._JSON_CONTENT_HEADER_VALUE)
-			
+            
             if res.status != self._STATUS_OK:
                 reason = res.reason if not message else message
                 raise Exception('Error resetting profile: ' + reason)
         except:
             logging.error('Error resetting profile')
             raise
-				
+                
     def enroll_profile(self, profile_id, file_path, force_short_audio = False):
         """Enrolls a profile using an audio file and returns a
         dictionary of the enrollment response.

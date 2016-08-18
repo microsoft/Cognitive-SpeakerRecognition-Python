@@ -221,7 +221,6 @@ class IdentificationServiceHttpClientHelper:
                 urllib.parse.quote(profile_id),
                 self._SHORT_AUDIO_PARAMETER_NAME,
                 force_short_audio)
-            print(request_url);
 
             # Prepare the body of the message
             with open(file_path, 'rb') as body:

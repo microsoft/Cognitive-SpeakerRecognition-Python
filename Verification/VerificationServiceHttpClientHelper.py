@@ -13,7 +13,7 @@ class VerificationServiceHttpClientHelper:
     """Abstracts the interaction with the Verification service."""
 
     _STATUS_OK = 200
-    _BASE_URI = 'api.projectoxford.ai'
+    _BASE_URI = 'westus.api.cognitive.microsoft.com'
     _VERIFICATION_PROFILES_URI = '/spid/v1.0/verificationProfiles'
     _VERIFICATION_URI = '/spid/v1.0/verify'
     _SUBSCRIPTION_KEY_HEADER = 'Ocp-Apim-Subscription-Key'

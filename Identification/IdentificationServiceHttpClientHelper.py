@@ -46,7 +46,7 @@ class IdentificationServiceHttpClientHelper:
 
     _STATUS_OK = 200
     _STATUS_ACCEPTED = 202
-    _BASE_URI = 'api.projectoxford.ai'
+    _BASE_URI = 'westus.api.cognitive.microsoft.com'
     _IDENTIFICATION_PROFILES_URI = '/spid/v1.0/identificationProfiles'
     _IDENTIFICATION_URI = '/spid/v1.0/identify'
     _SUBSCRIPTION_KEY_HEADER = 'Ocp-Apim-Subscription-Key'
